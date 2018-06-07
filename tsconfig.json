@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "ESNext",
+        "removeComments": true,
+        "noUnusedLocals":true,
+        "noUnusedParameters":true,
+        "sourceMap": true,
+        "outFile": "public/js/main.js",
+        "lib" : ["es2015", "dom"],
+        "watch": true
+    },
+    "include": [
+        "resources/ts/**/*"
+    ]
+}

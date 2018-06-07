@@ -1,0 +1,199 @@
+body {
+    /*background-color: #70CF51;*/
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow:hidden;
+    margin:0; padding:0;
+    height: 100vh;
+}
+
+body * {
+    position: absolute;
+    display: block;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+}
+
+
+
+
+
+player-object
+{
+    position: absolute;
+    display: inline-block;
+    background-image: url("../img/normal.png");
+    background-size: cover;
+    height: 120px;
+    width:65px;
+}
+
+player-object.jump
+{
+    background-image: url("../img/jump.png");
+    display: inline-block;
+    background-size: cover;
+    height: 90px;
+    width:40px;
+}
+
+player-object.run
+{
+    animation: run .25s linear infinite;
+}
+
+
+bug-object
+{
+    position: relative;
+    display: inline-block;
+    background-image: url("../img/passiv-bug.png");
+    height: 50px;
+    width:65px;
+}
+
+bug-object.jump
+{
+    animation: bug-jump 1s linear infinite;
+}
+
+cloud-object
+{
+    position: absolute;
+    display: inline-block;
+    background-image: url("../img/small-cloud.png");
+    background-size: cover;
+    height: 80px;
+    width:150px;
+    /*animation: cloud-animation 4s ease-in-out infinite alternate;*/
+}
+
+pipe-object
+{
+    position: absolute;
+    display: inline-block;
+    background-image: url("../img/pipe.png");
+    background-size: cover;
+    height: 150px;
+    width:80px;
+}
+
+platform-object
+{
+    position: relative;
+    display: inline-block;
+    background-image: url("../img/platform.png");
+    background-size: cover;
+    height: 60px;
+    width:325px;
+}
+
+spike-object
+{
+    position: relative;
+    display: inline-block;
+    background-image: url("../img/spike.png");
+    background-size: cover;
+    height: 60px;
+    width:30px;
+}
+
+cat-object
+{
+    position: relative;
+    display: inline-block;
+    background-image: url("../img/sleeping-cat.png");
+    background-size: cover;
+    height: 50px;
+    width:65px;
+}
+
+coin-object
+{
+    position: relative;
+    display: inline-block;
+    background-image: url("../img/coin.png");
+    background-size: cover;
+    height: 40px;
+    width:40px;
+}
+
+ground-object
+{
+    position: absolute;
+    bottom: 40vh;
+    display: inline-block;
+    background-image: url("../img/paper-ground.jpg");
+    background-size: cover;
+    height: 40vh;
+    width:100vw;
+}
+
+
+.start-button{
+    position: relative;
+}
+
+.start-button:hover{
+    animation: start-button-animation 2s ease infinite ;
+}
+
+@keyframes start-button-animation {
+    0%{
+        width: 600px;
+        height: auto;
+    }
+
+    50%{
+        width: 700px;
+        height: auto;
+    }
+
+    100%{
+        width: 600px;
+        height: auto;
+    }
+}
+
+@keyframes cloud-animation {
+    /*0% {*/
+        /*transform: translateY(20px);*/
+    /*}*/
+
+    100% {
+        transform: translateY(80px);
+    }
+}
+
+@keyframes bug-jump {
+
+    50%{
+        background-image: url("../img/jump-bug.png");
+        top: 30vh
+    }
+
+    100%{
+        background-image: url("../img/passiv-bug.png");
+        top:50vh;
+    }
+}
+
+
+
+@keyframes run
+{
+    0%{
+        background-image: url("../img/run-left.png");
+        width:90px;
+    }
+    50%{
+        background-image: url("../img/run-right.png");
+        width:90px;
+    }
+    100%{
+        background-image: url("../img/run-left.png");
+        width:90px;
+    }
+}

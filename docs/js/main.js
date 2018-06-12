@@ -182,8 +182,6 @@ class Player extends GameObject {
     jump(direction) {
         this.className = "";
         this.classList.add('run');
-        console.log("Player:", this.getBoundingClientRect().bottom);
-        console.log("Ground:", this.ground.getBoundingClientRect().top);
         if (direction == "up") {
             this.y -= 10;
         }

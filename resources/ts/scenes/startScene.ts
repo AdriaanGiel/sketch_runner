@@ -3,9 +3,13 @@ class StartScene extends Scene {
 
     constructor(game: Game) {
         super(game);
+        // Run start screen setup
         this.createStartScreen();
     }
 
+    /**
+     * Method to setup the startscreen
+     */
     private createStartScreen() {
         document.body.style.display = "flex";
         document.body.style.justifyContent = "center";

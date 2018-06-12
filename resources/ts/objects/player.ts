@@ -11,12 +11,18 @@ class Player extends GameObject{
 
         this.ground = ground;
 
+        // Fill keyOptions variable
         this.setupKeyOptions();
+
+        // Add event listener to window to catch key presses
         window.addEventListener('keydown', (e: KeyboardEvent) => this.handleKeyPress(e))
-
-
     }
 
+    /**
+     *
+     *
+     * @param {KeyboardEvent} event
+     */
     private handleKeyPress(event:KeyboardEvent):void
     {
         if(String(event.code) in this.keyOptions){
@@ -24,6 +30,9 @@ class Player extends GameObject{
         }
     }
 
+    /**
+     * Method to create key options with matching methods
+     */
     private setupKeyOptions()
     {
         this.keyOptions = {
@@ -43,6 +52,11 @@ class Player extends GameObject{
 
     }
 
+    /**
+     * Method to make player run
+     *
+     * @param {String} direction
+     */
     private run(direction:String)
     {
         this.className = "";
@@ -53,25 +67,27 @@ class Player extends GameObject{
             this.style.transform = "scaleX(-1)";
             this.x -= 10;
         }
-
-
         this.style.transform = "translate("+this.x+"px, "+this.y+"px)";
     }
 
+
+    /**
+     * Method to make player jump
+     *
+     * @param {string} direction
+     */
     private jump(direction:string)
     {
         this.className = "";
         this.classList.add('run');
-
-        console.log("Player:",this.getBoundingClientRect().bottom);
-        console.log("Ground:",this.ground.getBoundingClientRect().top);
 
         if(direction == "up"){
             this.y -= 10;
         }else{
             this.y += 10;
         }
-        // this.style.transform = "translate("+this.x+"px, "+this.y+"px)";
+
+        // Move player vertical
         this.move();
     }
 

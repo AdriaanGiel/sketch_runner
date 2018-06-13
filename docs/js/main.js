@@ -170,10 +170,16 @@ class Drop extends GameObject {
     hit() {
         this.style.backgroundImage = "url('./img/touch-coin.png')";
         this.speedY = 0;
-        this.style.left = String(this.getBoundingClientRect().left) + 'px';
+        this.style.left = "20px";
+        this.style.top = "20px";
+        this.speedX = -3;
+        setTimeout(() => {
+            this.remove();
+        }, 500);
     }
     move() {
         this.y += this.speedY;
+        this.x += this.speedX;
         super.move();
     }
 }

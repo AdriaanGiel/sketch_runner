@@ -3,7 +3,7 @@ abstract class GameObject extends HTMLElement{
     protected game:Game;
     protected x:number;
     protected y:number;
-    protected  position:ClientRect;
+
 
     protected constructor(game:Game,x:number,y:number)
     {
@@ -12,25 +12,15 @@ abstract class GameObject extends HTMLElement{
         this.x = x;
         this.y = y;
 
-        // Move the game object to the correct position
-        this.move();
-
         // Append the element to the body
         document.body.appendChild(this);
 
-        // Set startvalues
-        this.position = this.getBoundingClientRect();
+        // Move the game object to the correct position
+        this.move();
+
+
     }
 
-    /**
-     * Method to get start position
-     *
-      * @returns {ClientRect}
-     */
-    public getElementPosition()
-    {
-        return this.position;
-    }
 
     /**
      *  Method to move element to position on screen

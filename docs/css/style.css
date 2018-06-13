@@ -64,10 +64,11 @@ cloud-object
     position: absolute;
     display: inline-block;
     background-image: url("../img/small-cloud.png");
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
     height: 80px;
     width:150px;
-    /*animation: cloud-animation 4s ease-in-out infinite alternate;*/
+    /*animation: cloud-animation 10s linear infinite;*/
 }
 
 pipe-object
@@ -131,6 +132,14 @@ ground-object
     width:100vw;
 }
 
+drop-object{
+    position: absolute;
+    background-image: url("../img/coin.png");
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+}
+
 
 .start-button{
     position: relative;
@@ -138,6 +147,22 @@ ground-object
 
 .start-button:hover{
     animation: start-button-animation 2s ease infinite ;
+}
+
+.delay-1{
+    animation-delay: -1s;
+}
+
+.delay-2{
+    animation-delay: -2s;
+}
+
+.delay-3{
+    animation-delay: -3s;
+}
+
+.delay-4{
+    animation-delay: -4s;
 }
 
 @keyframes start-button-animation {
@@ -158,12 +183,23 @@ ground-object
 }
 
 @keyframes cloud-animation {
-    /*0% {*/
-        /*transform: translateY(20px);*/
-    /*}*/
-
-    100% {
-        transform: translateY(80px);
+    0%{
+        left: 0;
+     }
+    20%{
+        left: 50vw;
+    }
+    40%{
+        left: 75vw;
+    }
+    60%{
+        left: 100vw;
+    }
+    80%{
+        left: 150vw;
+    }
+    100%{
+        left: 175vw;
     }
 }
 

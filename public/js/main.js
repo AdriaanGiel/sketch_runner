@@ -76,8 +76,12 @@ class GameObject extends HTMLElement {
         this.game = game;
         this.x = x;
         this.y = y;
-        document.body.appendChild(this);
         this.move();
+        document.body.appendChild(this);
+        this.position = this.getBoundingClientRect();
+    }
+    getElementPosition() {
+        return this.position;
     }
     move() {
         this.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
@@ -98,28 +102,6 @@ customElements.define('cat-object', Cat);
 class Cloud extends GameObject {
     constructor(game, x, y, scene) {
         super(game, x, y);
-        this.delays = [
-            'delay-1',
-            'delay-1',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-1',
-            'delay-2',
-            'delay-2',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-1',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-        ];
         this.clouds = [
             'big-cloud-1',
             'big-cloud-2',
@@ -128,22 +110,17 @@ class Cloud extends GameObject {
         ];
         let cloudName = this.clouds[Math.floor(Math.random() * this.clouds.length)];
         this.scene = scene;
+        this.style.left = String(Math.floor(Math.random() * window.innerWidth)) + "px";
+        this.style.top = String(Math.floor(Math.random() * (window.innerHeight / 3))) + "px";
         if (cloudName == 'small-cloud') {
             this.style.width = "50px";
             this.style.height = "50px";
         }
         this.style.backgroundImage = "url('./img/" + cloudName + ".png')";
-        this.classList.add(this.delays[Math.floor(Math.random() * this.clouds.length)]);
-    }
-    update() {
-        this.x += 3;
-        this.move();
-        if (this.x > window.innerWidth) {
-        }
     }
     rain() {
         let position = this.getBoundingClientRect();
-        let rainDrop = new Drop(this.game, position.left, position.top);
+        let rainDrop = new Drop(this.game, position.left, position.bottom);
         this.scene.addDropToWorld(rainDrop);
     }
 }
@@ -159,12 +136,11 @@ class Drop extends GameObject {
         super(game, x, y);
         this.xSpeed = -1;
         this.ySpeed = 1;
-        console.log('xValue', this.x);
     }
     move() {
-        this.y += 1;
-        console.log('speed', this.y);
-        this.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
+        this.x += this.xSpeed;
+        this.y += this.ySpeed;
+        super.move();
     }
 }
 customElements.define('drop-object', Drop);
@@ -258,29 +234,30 @@ class PlayScene extends Scene {
         this.gotHit = false;
         document.body.style.backgroundImage = "url('./img/background.jpg')";
         this.ground = new Ground(this.game, 0, 400);
-        this.player = new Player(this.game, this.ground, this.ground.getBoundingClientRect().left - 200, this.ground.getBoundingClientRect().top - 300);
-        for (let i = 0; i < 20; i++) {
-            let cloud = new Cloud(this.game, Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * -300) + -100, this);
-            cloud.rain();
-            this.clouds.push(cloud);
+        new Pipe(this.game, 250, this.ground.getElementPosition().top - 300);
+        this.player = new Player(this.game, this.ground, this.ground.getElementPosition().left - 200, this.ground.getElementPosition().top - 300);
+        for (let i = 0; i < 5; i++) {
+            this.clouds.push(new Cloud(this.game, 0, 0, this));
         }
     }
     update() {
         this.player.update();
-        for (let cloud of this.clouds) {
-            cloud.update();
-        }
-        for (let drop of this.drops) {
-            drop.move();
-        }
+        console.log('test');
+        this.makeItRain();
         this.checkIfPlayerHasBeenHit();
     }
     makeItRain() {
-        this.clouds[Math.floor(Math.random() * this.clouds.length)].rain();
+        console.log('makeitrain');
+        while (!this.gotHit) {
+            setTimeout(() => {
+                this.clouds[Math.floor(Math.random() * this.clouds.length)].rain();
+            }, 500);
+        }
     }
     checkIfPlayerHasBeenHit() {
         for (let drop of this.drops) {
             if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {
+                console.log('hit');
             }
         }
     }

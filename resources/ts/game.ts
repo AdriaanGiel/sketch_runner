@@ -2,11 +2,14 @@
 /// <reference path="./scenes/startScene.ts"/>
 class Game {
     private activeScene:Scene;
+
     private scenes:any = {
         startScene: StartScene,
         playScene: PlayScene,
         endScene: EndScene
     };
+
+
 
     constructor()
     {
@@ -26,6 +29,8 @@ class Game {
         requestAnimationFrame(() => this.gameLoop());
     }
 
+
+
     /**
      * Method to get available scenes
      *
@@ -36,7 +41,7 @@ class Game {
         return this.scenes;
     }
 
-    public changeGameScene(scene:String):void
+    public changeGameScene(scene:string):void
     {
         // reset innetHTML on page
         this.activeScene.resetScreen();

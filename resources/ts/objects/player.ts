@@ -2,7 +2,7 @@
 /// <reference path="../game.ts"/>
 class Player extends GameObject{
 
-    private keyOptions:object;
+    private keyOptions:any;
     private ground:Ground;
 
     constructor(game:Game,ground:Ground,x:number,y:number)

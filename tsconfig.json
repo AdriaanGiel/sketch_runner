@@ -6,7 +6,7 @@
         "noUnusedLocals":true,
         "noUnusedParameters":true,
         "sourceMap": true,
-        "outFile": "public/js/main.js",
+        "outFile": "docs/js/main.js",
         "lib" : ["es2015", "dom"],
         "watch": true
     },

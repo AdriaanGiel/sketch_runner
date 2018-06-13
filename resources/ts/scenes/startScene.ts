@@ -35,7 +35,6 @@ class StartScene extends Scene {
         title.style.position = "relative";
         title.classList.add('start-button');
 
-
         container.appendChild(start);
         container.appendChild(title);
 
@@ -47,5 +46,7 @@ class StartScene extends Scene {
     {
 
     }
+
+
 
 }

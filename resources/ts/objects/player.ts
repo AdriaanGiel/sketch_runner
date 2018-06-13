@@ -11,6 +11,9 @@ class Player extends GameObject{
 
         this.ground = ground;
 
+
+        this.move();
+
         // Fill keyOptions variable
         this.setupKeyOptions();
 

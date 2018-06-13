@@ -17,7 +17,14 @@ body * {
 }
 
 
+.flex{
+    display: flex;
+}
 
+.flex-center{
+    align-items: center;
+    justify-content: center;
+}
 
 
 player-object
@@ -69,6 +76,10 @@ cloud-object
     height: 80px;
     width:150px;
     /*animation: cloud-animation 10s linear infinite;*/
+}
+
+cloud-object *{
+    z-index: -100000;
 }
 
 pipe-object

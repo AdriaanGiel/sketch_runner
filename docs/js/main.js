@@ -68,16 +68,22 @@ class Game {
         this.activeScene.resetScreen();
         this.activeScene = new this.scenes[scene](this);
     }
+    static random(min, max) {
+        return Math.floor(Math.random() * max) + min;
+    }
 }
 window.addEventListener('load', () => { new Game(); });
 class GameObject extends HTMLElement {
-    constructor(game, x, y) {
+    constructor(game, x, y, append = true) {
         super();
+        this.x = 0;
+        this.y = 0;
         this.game = game;
         this.x = x;
         this.y = y;
-        document.body.appendChild(this);
-        this.move();
+        if (append) {
+            document.body.appendChild(this);
+        }
     }
     move() {
         this.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
@@ -98,52 +104,49 @@ customElements.define('cat-object', Cat);
 class Cloud extends GameObject {
     constructor(game, x, y, scene) {
         super(game, x, y);
-        this.delays = [
-            'delay-1',
-            'delay-1',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-1',
-            'delay-2',
-            'delay-2',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-4',
-            'delay-1',
-            'delay-2',
-            'delay-3',
-            'delay-4',
-        ];
         this.clouds = [
             'big-cloud-1',
             'big-cloud-2',
             'big-cloud-3',
             'small-cloud'
         ];
+        this.speedX = 3;
+        this.speedMultiplier = 1;
+        this.loops = 0;
         let cloudName = this.clouds[Math.floor(Math.random() * this.clouds.length)];
         this.scene = scene;
         if (cloudName == 'small-cloud') {
             this.style.width = "50px";
             this.style.height = "50px";
         }
+        this.classList.add('flex');
+        this.classList.add('flex-center');
         this.style.backgroundImage = "url('./img/" + cloudName + ".png')";
-        this.classList.add(this.delays[Math.floor(Math.random() * this.clouds.length)]);
+    }
+    raiseCloudSpeed(amount) {
+        if (this.speedX < 8) {
+            this.speedX += Game.random(0, amount);
+        }
     }
     update() {
-        this.x += 3;
+        this.x += this.speedX;
         this.move();
-        if (this.x > window.innerWidth) {
+        if (this.x > window.innerWidth / 2 + 150) {
+            this.x = -1000;
+            this.rain();
+            this.raiseCloudSpeed(1 * this.speedMultiplier);
+            this.loops++;
+        }
+        this.raiseSpeedMultiplier();
+    }
+    raiseSpeedMultiplier() {
+        if (this.loops === 2) {
+            this.speedMultiplier++;
+            this.loops = 0;
         }
     }
     rain() {
-        let position = this.getBoundingClientRect();
-        let rainDrop = new Drop(this.game, position.left, position.top);
+        let rainDrop = new Drop(this.game, 0, 0, this);
         this.scene.addDropToWorld(rainDrop);
     }
 }
@@ -155,22 +158,30 @@ class Coin extends GameObject {
 }
 customElements.define('coin-object', Coin);
 class Drop extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
-        this.xSpeed = -1;
-        this.ySpeed = 1;
-        console.log('xValue', this.x);
+    constructor(game, x, y, cloud) {
+        super(game, x, y, false);
+        this.speedX = 0;
+        this.speedY = 0;
+        this.speedX = -1;
+        this.speedY = 1;
+        this.cloud = cloud;
+        this.cloud.appendChild(this);
+    }
+    hit() {
+        this.style.backgroundImage = "url('./img/touch-coin.png')";
+        this.speedY = 0;
+        this.style.left = String(this.getBoundingClientRect().left) + 'px';
     }
     move() {
-        this.y += 1;
-        console.log('speed', this.y);
-        this.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
+        this.y += this.speedY;
+        super.move();
     }
 }
 customElements.define('drop-object', Drop);
 class Ground extends GameObject {
     constructor(game, x, y) {
         super(game, x, y);
+        this.move();
     }
 }
 customElements.define('ground-object', Ground);
@@ -190,6 +201,7 @@ class Player extends GameObject {
     constructor(game, ground, x, y) {
         super(game, x, y);
         this.ground = ground;
+        this.move();
         this.setupKeyOptions();
         window.addEventListener('keydown', (e) => this.handleKeyPress(e));
     }
@@ -272,16 +284,15 @@ class PlayScene extends Scene {
         }
         for (let drop of this.drops) {
             drop.move();
+            this.checkIfPlayerHasBeenHit(drop);
         }
-        this.checkIfPlayerHasBeenHit();
     }
     makeItRain() {
         this.clouds[Math.floor(Math.random() * this.clouds.length)].rain();
     }
-    checkIfPlayerHasBeenHit() {
-        for (let drop of this.drops) {
-            if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {
-            }
+    checkIfPlayerHasBeenHit(drop) {
+        if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {
+            drop.hit();
         }
     }
     addDropToWorld(drop) {

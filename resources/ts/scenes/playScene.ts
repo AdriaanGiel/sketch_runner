@@ -1,10 +1,10 @@
 /// <reference path="../core/scene.ts"/>
-class PlayScene extends Scene{
+class PlayScene extends Scene {
     private player: Player;
     private ground: Ground;
-    private drops:Drop[] = [];
-    private clouds:Cloud[] = [];
-    private gotHit:boolean = false;
+    private drops: Drop[] = [];
+    private clouds: Cloud[] = [];
+    private gotHit: boolean = false;
 
 
     constructor(game: Game) {
@@ -15,9 +15,6 @@ class PlayScene extends Scene{
         // add ground to scene
         this.ground = new Ground(this.game, 0, 400);
 
-        // add pipe to scene
-        // new Pipe(this.game, 250, this.ground.getElementPosition().top - 300);
-
         // add player to scene
         this.player = new Player(this.game, this.ground, this.ground.getBoundingClientRect().left - 200, this.ground.getBoundingClientRect().top - 300);
 
@@ -26,8 +23,8 @@ class PlayScene extends Scene{
             let cloud = new Cloud(this.game, Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * -300) + -100, this);
             cloud.rain();
             this.clouds.push(cloud);
-
         }
+
     }
 
     update(): void {
@@ -35,41 +32,37 @@ class PlayScene extends Scene{
         this.player.update();
 
 
-        for(let cloud of this.clouds){
+        for (let cloud of this.clouds) {
             cloud.update();
         }
 
-        for(let drop of this.drops){
+        for (let drop of this.drops) {
             drop.move();
+            // Check collision between drop and player
+            this.checkIfPlayerHasBeenHit(drop);
         }
 
-        // Check collision between drop and player
-        this.checkIfPlayerHasBeenHit();
 
     }
 
-    private makeItRain():void
-    {
+    private makeItRain(): void {
         this.clouds[Math.floor(Math.random() * this.clouds.length)].rain();
 
     }
 
-    private checkIfPlayerHasBeenHit():void
+    private checkIfPlayerHasBeenHit(drop:Drop): void
     {
-        for(let drop of this.drops)
-        {
-            if(this.checkCollision(drop.getBoundingClientRect(),this.player.getBoundingClientRect())){
-                // console.log('hit');
-            }
+        if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {
+            drop.hit();
         }
+
     }
 
 
     /**
      * Method to add a new drop to scene
      */
-    public addDropToWorld(drop:Drop)
-    {
+    public addDropToWorld(drop: Drop) {
         this.drops.push(drop);
     }
 

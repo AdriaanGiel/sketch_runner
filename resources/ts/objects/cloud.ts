@@ -3,29 +3,6 @@
 
 class Cloud extends GameObject{
 
-    private delays:string[] = [
-        'delay-1',
-        'delay-1',
-        'delay-2',
-        'delay-3',
-        'delay-4',
-        'delay-4',
-        'delay-4',
-        'delay-1',
-        'delay-2',
-        'delay-2',
-        'delay-2',
-        'delay-3',
-        'delay-4',
-        'delay-4',
-        'delay-4',
-        'delay-4',
-        'delay-1',
-        'delay-2',
-        'delay-3',
-        'delay-4',
-    ];
-
     private clouds:string[] = [
       'big-cloud-1',
       'big-cloud-2',
@@ -33,6 +10,9 @@ class Cloud extends GameObject{
       'small-cloud'
     ];
 
+    private speedX:number = 3;
+    private speedMultiplier:number = 1;
+    private loops:number = 0;
     private scene:PlayScene;
 
     constructor(game:Game,x:number,y:number, scene:PlayScene)
@@ -40,41 +20,62 @@ class Cloud extends GameObject{
         super(game,x,y);
         let cloudName = this.clouds[Math.floor(Math.random() * this.clouds.length)];
 
+        // set current scene
         this.scene = scene;
 
-        // this.style.left = String(Math.floor(Math.random() * window.innerWidth)) + "px";
-        // this.style.top = String(Math.floor(Math.random() * (window.innerHeight / 3))) + "px";
-
+        // change dimensions if cloudName is the smallest cloud
         if(cloudName == 'small-cloud'){
             this.style.width = "50px";
             this.style.height = "50px";
         }
 
+
+        // add class to cloud to center drop item
+        this.classList.add('flex');
+        this.classList.add('flex-center');
+
+        // use a random cloud image
         this.style.backgroundImage = "url('./img/" + cloudName + ".png')";
-        this.classList.add(this.delays[Math.floor(Math.random() * this.clouds.length)]);
+    }
+
+    private raiseCloudSpeed(amount:number)
+    {
+        if(this.speedX < 8)
+        {
+            this.speedX += Game.random(0,amount);
+        }
     }
 
     public update()
     {
-        // console.log('xvalue:', this.x);
-        // console.log('window:', window.innerWidth);
-        this.x += 3;
+        this.x += this.speedX;
         this.move();
 
-        if(this.x > window.innerWidth){
-
-            // console.log('out');
+        if(this.x > window.innerWidth / 2 + 150){
+            this.x = -1000;
+            this.rain();
+            this.raiseCloudSpeed(1 * this.speedMultiplier);
+            this.loops++;
         }
 
+        this.raiseSpeedMultiplier();
     }
 
+
+    private raiseSpeedMultiplier()
+    {
+        if(this.loops === 2){
+
+            this.speedMultiplier++;
+
+            this.loops = 0;
+        }
+    }
 
 
     public rain():void
     {
-        let position = this.getBoundingClientRect();
-
-        let rainDrop = new Drop(this.game,position.left,position.top);
+        let rainDrop = new Drop(this.game,0, 0,this);
 
         this.scene.addDropToWorld(rainDrop);
     }

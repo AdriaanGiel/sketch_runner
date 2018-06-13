@@ -50,6 +50,18 @@ class Game {
         this.activeScene = new this.scenes[scene](this);
     }
 
+    /**
+     * Method to get random value between a min and max
+     * Static so it can be used everywhere without the need of a initialized game object
+     * @param {number} min
+     * @param {number} max
+     * @returns {number}
+     */
+    static random(min:number,max:number):number
+    {
+        return Math.floor(Math.random() * max) + min;
+    }
+
 }
 
 // Setup game when page is loaded

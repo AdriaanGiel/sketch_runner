@@ -1,31 +1,37 @@
 /// <reference path="../core/gameObject.ts"/>
-/// <reference path="../game.ts"/>
+
 class Drop extends GameObject{
-    private xSpeed:number;
-    protected ySpeed:number;
+    private speedX : number = 0;
+    private speedY : number = 0;
+    private cloud : Cloud;
 
-    constructor(game:Game,x:number,y:number)
+    constructor(game:Game,x:number,y:number,cloud:Cloud)
     {
-        super(game,x,y);
+        super(game,x,y,false);
 
-        this.xSpeed = -1;
-        this.ySpeed = 1;
+        this.speedX = -1;
+        this.speedY = 1;
 
+        this.cloud = cloud;
 
-        console.log('xValue', this.x);
-        // console.log('yValue', this.y);
+        this.cloud.appendChild(this);
+
+        // this.move();
+    }
+
+    public hit()
+    {
+        this.style.backgroundImage = "url('./img/touch-coin.png')";
+        this.speedY = 0;
+        this.style.left = String(this.getBoundingClientRect().left) + 'px';
+
     }
 
     public move():void
     {
-        // this.x += this.xSpeed;
-        this.y += 1;
+        this.y += this.speedY;
 
-
-        console.log('speed', this.y);
-        // call parent move function
-        this.style.transform = "translate("+this.x+"px, "+this.y+"px)";
-
+        super.move()
     }
 }
 

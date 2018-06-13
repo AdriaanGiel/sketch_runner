@@ -15,9 +15,9 @@ class Cloud extends GameObject{
     private loops:number = 0;
     private scene:PlayScene;
 
-    constructor(game:Game,x:number,y:number, scene:PlayScene)
+    constructor(x:number,y:number, scene:PlayScene)
     {
-        super(game,x,y);
+        super(x,y);
         let cloudName = this.clouds[Math.floor(Math.random() * this.clouds.length)];
 
         // set current scene
@@ -75,7 +75,7 @@ class Cloud extends GameObject{
 
     public rain():void
     {
-        let rainDrop = new Drop(this.game,0, 0,this);
+        let rainDrop = new Drop(0, 0,this);
 
         this.scene.addDropToWorld(rainDrop);
     }

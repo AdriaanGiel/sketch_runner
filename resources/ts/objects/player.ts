@@ -5,12 +5,11 @@ class Player extends GameObject{
     private keyOptions:any;
     private ground:Ground;
 
-    constructor(game:Game,ground:Ground,x:number,y:number)
+    constructor(ground:Ground,x:number,y:number)
     {
-        super(game,x,y);
+        super(x,y);
 
         this.ground = ground;
-
 
         this.move();
 

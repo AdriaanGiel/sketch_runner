@@ -2,9 +2,9 @@
 /// <reference path="../game.ts"/>
 class Spike extends GameObject{
 
-    constructor(game:Game,x:number,y:number)
+    constructor(x:number,y:number)
     {
-        super(game,x,y);
+        super(x,y);
     }
 
 

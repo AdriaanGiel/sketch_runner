@@ -1,14 +1,12 @@
 /// <reference path="../game.ts"/>
 abstract class GameObject extends HTMLElement{
-    protected game:Game;
     protected x:number = 0;
     protected y:number = 0;
 
 
-    protected constructor(game:Game,x:number,y:number, append:boolean = true)
+    protected constructor(x:number,y:number, append:boolean = true)
     {
         super();
-        this.game = game;
         this.x = x;
         this.y = y;
 

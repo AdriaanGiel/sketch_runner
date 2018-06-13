@@ -74,11 +74,10 @@ class Game {
 }
 window.addEventListener('load', () => { new Game(); });
 class GameObject extends HTMLElement {
-    constructor(game, x, y, append = true) {
+    constructor(x, y, append = true) {
         super();
         this.x = 0;
         this.y = 0;
-        this.game = game;
         this.x = x;
         this.y = y;
         if (append) {
@@ -89,21 +88,9 @@ class GameObject extends HTMLElement {
         this.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
     }
 }
-class Bug extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
-    }
-}
-customElements.define('bug-object', Bug);
-class Cat extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
-    }
-}
-customElements.define('cat-object', Cat);
 class Cloud extends GameObject {
-    constructor(game, x, y, scene) {
-        super(game, x, y);
+    constructor(x, y, scene) {
+        super(x, y);
         this.clouds = [
             'big-cloud-1',
             'big-cloud-2',
@@ -146,20 +133,20 @@ class Cloud extends GameObject {
         }
     }
     rain() {
-        let rainDrop = new Drop(this.game, 0, 0, this);
+        let rainDrop = new Drop(0, 0, this);
         this.scene.addDropToWorld(rainDrop);
     }
 }
 customElements.define('cloud-object', Cloud);
 class Coin extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
+    constructor(x, y) {
+        super(x, y);
     }
 }
 customElements.define('coin-object', Coin);
 class Drop extends GameObject {
-    constructor(game, x, y, cloud) {
-        super(game, x, y, false);
+    constructor(x, y, cloud) {
+        super(x, y, false);
         this.speedX = 0;
         this.speedY = 0;
         this.speedX = -1;
@@ -185,27 +172,15 @@ class Drop extends GameObject {
 }
 customElements.define('drop-object', Drop);
 class Ground extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
+    constructor(x, y) {
+        super(x, y);
         this.move();
     }
 }
 customElements.define('ground-object', Ground);
-class Pipe extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
-    }
-}
-customElements.define('pipe-object', Pipe);
-class Platform extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
-    }
-}
-customElements.define('platform-object', Platform);
 class Player extends GameObject {
-    constructor(game, ground, x, y) {
-        super(game, x, y);
+    constructor(ground, x, y) {
+        super(x, y);
         this.ground = ground;
         this.move();
         this.setupKeyOptions();
@@ -256,8 +231,8 @@ class Player extends GameObject {
 }
 customElements.define('player-object', Player);
 class Spike extends GameObject {
-    constructor(game, x, y) {
-        super(game, x, y);
+    constructor(x, y) {
+        super(x, y);
     }
 }
 customElements.define('spike-object', Spike);
@@ -273,12 +248,11 @@ class PlayScene extends Scene {
         super(game);
         this.drops = [];
         this.clouds = [];
-        this.gotHit = false;
         document.body.style.backgroundImage = "url('./img/background.jpg')";
-        this.ground = new Ground(this.game, 0, 400);
-        this.player = new Player(this.game, this.ground, this.ground.getBoundingClientRect().left - 200, this.ground.getBoundingClientRect().top - 300);
+        this.ground = new Ground(0, 400);
+        this.player = new Player(this.ground, this.ground.getBoundingClientRect().left - 200, this.ground.getBoundingClientRect().top - 300);
         for (let i = 0; i < 20; i++) {
-            let cloud = new Cloud(this.game, Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * -300) + -100, this);
+            let cloud = new Cloud(Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * -300) + -100, this);
             cloud.rain();
             this.clouds.push(cloud);
         }
@@ -292,9 +266,6 @@ class PlayScene extends Scene {
             drop.move();
             this.checkIfPlayerHasBeenHit(drop);
         }
-    }
-    makeItRain() {
-        this.clouds[Math.floor(Math.random() * this.clouds.length)].rain();
     }
     checkIfPlayerHasBeenHit(drop) {
         if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {

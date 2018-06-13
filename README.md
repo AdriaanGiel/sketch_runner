@@ -16,6 +16,7 @@ Voor encapsulation kan je verschillende modifiers gebruiken om de juiste doel te
 * **Private** gebruik je als je wilt dat de properties en/of method alleen beschikbaar zijn binnen de functie.
 
         class object{
+            // properties en methods hebben allemaal de private modifier ervoor staan
             private prop1:string;
             private prop2:string;
             
@@ -25,10 +26,11 @@ Voor encapsulation kan je verschillende modifiers gebruiken om de juiste doel te
             }
         }
 
-* **protected** gebruikt je bij inheritence. Hiermee maak je de properties en/of method van een parent class beschikbaar voor de class
+* **Protected** gebruikt je bij inheritence. Hiermee maak je de properties en/of method van een parent class beschikbaar voor de class
 die overerft van de parent. 
 
         class Object{
+            // properties en methods hebben allemaal de protected modifier ervoor staan
             protected prop1:string;
             protected prop2:string;
             
@@ -38,9 +40,10 @@ die overerft van de parent.
             }
         }
 
-* **public** gebruik je als je wilt dat de properties en/of method beschikbaar is voor iedereen die een class heeft geïnstantieerd.
+* **Public** gebruik je als je wilt dat de properties en/of method beschikbaar is voor iedereen die een class heeft geïnstantieerd.
         
         class Object{
+            // properties en methods hebben allemaal de public modifier ervoor staan
             public prop1:string;
             public prop2:string;
             
@@ -51,9 +54,10 @@ die overerft van de parent.
         }
 
 
-* **static** gebruik je als je een propertie en/of method beschikbaar wilt maken voor de hele applicatie zonder dat een class is geïnstantieerd
+* **Static** gebruik je als je een propertie en/of method beschikbaar wilt maken voor de hele applicatie zonder dat een class is geïnstantieerd
 
         class Object{
+            // properties en methods hebben de static modifier ervoor staan
             static prop1:string;
             
             static function1()
@@ -86,14 +90,18 @@ Deze class parameter sla je dan op in een propertie van de class.
 voorbeeld:
     
     class Water{
+        // propertie wordt voorbereid om een Fish object te krijgen
         private fish:Fish;
     
+        // In de constructor word een Fish object meegegeven
         constructor(fish:Fish)
         {
+            // propertie wordt gevult met de Fish object
             this.fish = fish;
         }
     }
     
+    // Fish object
     class Fish{
         private x:number;
         private y:number;

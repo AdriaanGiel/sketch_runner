@@ -5,6 +5,7 @@ de wolken vallen. De munten kan je vangen, maar als je door een ander object wor
 dan ben je dood. Je score wordt in de hoek van de speelscherm bijgehouden. Je kan het altijd
 opnieuw proberen. 
 
+**Op het moment is het spel alleen speelbaar op Google Chrome.**
 **Demo op:** https://adriaangiel.github.io/sketch_runner/
 
 Ik gebruik in deze spel alle technieken die we in de les hebben behandeld.

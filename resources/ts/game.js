@@ -1,6 +1,6 @@
 "use strict";
-class Game {
-    constructor() {
+var Game = (function () {
+    function Game() {
         this.scenes = {
             startScene: StartScene,
             playScene: PlayScene,
@@ -9,16 +9,21 @@ class Game {
         this.activeScene = new this.scenes.startScene(this);
         this.gameLoop();
     }
-    gameLoop() {
+    Game.prototype.gameLoop = function () {
+        var _this = this;
         this.activeScene.update();
-        requestAnimationFrame(() => this.gameLoop());
-    }
-    getAvailableScenes() {
+        requestAnimationFrame(function () { return _this.gameLoop(); });
+    };
+    Game.prototype.getAvailableScenes = function () {
         return this.scenes;
-    }
-    changeGameScene(scene) {
+    };
+    Game.prototype.changeGameScene = function (scene) {
         this.activeScene.resetScreen();
         this.activeScene = new this.scenes[scene](this);
-    }
-}
-window.addEventListener('load', () => { new Game(); });
+    };
+    Game.random = function (min, max) {
+        return Math.floor(Math.random() * max) + min;
+    };
+    return Game;
+}());
+window.addEventListener('load', function () { new Game(); });

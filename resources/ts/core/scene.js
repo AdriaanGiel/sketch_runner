@@ -1,18 +1,19 @@
 "use strict";
-class Scene {
-    constructor(game) {
+var Scene = (function () {
+    function Scene(game) {
         this.game = game;
     }
-    resetScreen() {
+    Scene.prototype.resetScreen = function () {
         document.body.innerHTML = "";
-    }
-    switchScene(scene) {
+    };
+    Scene.prototype.switchScene = function (scene) {
         this.game.changeGameScene(scene);
-    }
-    checkCollision(a, b) {
+    };
+    Scene.prototype.checkCollision = function (a, b) {
         return (a.left <= b.right &&
             b.left <= a.right &&
             a.top <= b.bottom &&
             b.top <= a.bottom);
-    }
-}
+    };
+    return Scene;
+}());

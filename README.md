@@ -107,10 +107,13 @@ Om je applicatie zo veilig mogelijk te schrijven is de standaard eigenlijk dat a
 kunnen veranderen, maak je getters en setters. Voor functies gebruik je public alleen als de functie buiten de class moet kunnen worden aangeroepen.
  
 **Voorbeeld in eigen code:** 
+
 Properties
+
 ![ParentClass](./docs/img/encapsulation_properties.PNG)
 
 Methods
+
 ![ChildClass](./docs/img/encapsulation_methods.PNG)
 
 
@@ -148,7 +151,8 @@ voorbeeld:
 
 
 Hier gebruik ik het specifiek zodat ik de functie changeGameScene van de Game kan gebruiken binnen de Scene classes
-    ![Compo](./docs/img/composition.PNG)
+
+![Compo](./docs/img/composition.PNG)
 
 **Inheritence:**
 

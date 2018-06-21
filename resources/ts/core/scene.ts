@@ -1,8 +1,8 @@
 abstract class Scene{
 
-    game:Game;
+    protected game:Game;
 
-    constructor(game:Game)
+    protected constructor(game:Game)
     {
         this.game = game;
     }
@@ -24,7 +24,7 @@ abstract class Scene{
      *
      * @param {string} scene
      */
-    protected switchScene(scene:string):void
+    public switchScene(scene:string):void
     {
         // use the method in the game object
         this.game.changeGameScene(scene);

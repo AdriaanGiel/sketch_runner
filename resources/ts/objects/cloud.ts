@@ -10,10 +10,22 @@ class Cloud extends GameObject{
       'small-cloud'
     ];
 
+    private keepRaining:boolean = true;
+
     private speedX:number = 3;
-    private speedMultiplier:number = 1;
-    private loops:number = 0;
+
     private scene:PlayScene;
+
+
+    private dropItems:string[] = [
+      'coin','flame','spike'
+    ];
+    private items:DropItem[] = {
+        coin: Coin,
+        spike: Spike,
+        flame: Flame
+    };
+
 
     constructor(x:number,y:number, scene:PlayScene)
     {
@@ -29,7 +41,6 @@ class Cloud extends GameObject{
             this.style.height = "50px";
         }
 
-
         // add class to cloud to center drop item
         this.classList.add('flex');
         this.classList.add('flex-center');
@@ -38,46 +49,38 @@ class Cloud extends GameObject{
         this.style.backgroundImage = "url('./img/" + cloudName + ".png')";
     }
 
-    private raiseCloudSpeed(amount:number)
+    public update():void
     {
-        if(this.speedX < 8)
-        {
-            this.speedX += Game.random(0,amount);
+        if(this.x > document.body.getBoundingClientRect().right){
+            this.x = Game.random(-100,-300);
+            this.rain();
         }
-    }
-
-    public update()
-    {
         this.x += this.speedX;
         this.move();
-
-        if(this.x > window.innerWidth / 2 + 150){
-            this.x = -1000;
-            this.rain();
-            this.raiseCloudSpeed(1 * this.speedMultiplier);
-            this.loops++;
-        }
-
-        this.raiseSpeedMultiplier();
-    }
-
-
-    private raiseSpeedMultiplier()
-    {
-        if(this.loops === 2){
-
-            this.speedMultiplier++;
-
-            this.loops = 0;
-        }
     }
 
 
     public rain():void
     {
-        let rainDrop = new Drop(0, 0,this);
+        if(this.offsetParent !== null)
+        {
+            let timer = setTimeout(() => {
+                if(this.keepRaining){
+                    let rainDrop = new this.items[this.dropItems[Game.random(0,this.dropItems.length)]](this.scene,this);
+                    this.scene.addDropToWorld(rainDrop);
+                }
 
-        this.scene.addDropToWorld(rainDrop);
+            }, Math.floor(Math.random() * 7000) + 1500);
+
+            if(!this.keepRaining){
+                clearTimeout(timer);
+            }
+        }
+    }
+
+    public stopRain():void
+    {
+        this.keepRaining = false;
     }
 
 }

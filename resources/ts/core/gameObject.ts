@@ -22,7 +22,7 @@ abstract class GameObject extends HTMLElement{
     /**
      *  Method to move element to position on screen
      */
-    public move()
+    public move():void
     {
         this.style.transform = "translate("+this.x+"px, "+this.y+"px)";
     }

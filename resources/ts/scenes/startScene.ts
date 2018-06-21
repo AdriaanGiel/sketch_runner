@@ -10,7 +10,7 @@ class StartScene extends Scene {
     /**
      * Method to setup the startscreen
      */
-    private createStartScreen() {
+    private createStartScreen():void {
         document.body.style.display = "flex";
         document.body.style.justifyContent = "center";
         document.body.style.alignItems = "center";
@@ -42,11 +42,9 @@ class StartScene extends Scene {
     }
 
 
-    update()
+    update():void
     {
 
     }
-
-
 
 }

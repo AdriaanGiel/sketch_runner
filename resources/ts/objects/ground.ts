@@ -5,7 +5,6 @@ class Ground extends GameObject{
     constructor(x:number,y:number)
     {
         super(x,y);
-
         this.move();
     }
 

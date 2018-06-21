@@ -7,9 +7,10 @@ class Player extends GameObject{
 
     constructor(ground:Ground,x:number,y:number)
     {
-        super(x,y);
+        super(x,y,false);
 
         this.ground = ground;
+        this.ground.appendChild(this);
 
         this.move();
 
@@ -35,23 +36,18 @@ class Player extends GameObject{
     /**
      * Method to create key options with matching methods
      */
-    private setupKeyOptions()
+    private setupKeyOptions():void
     {
         this.keyOptions = {
-            "ArrowUp": () => this.jump("up"),
-            "ArrowDown": () => this.jump("down"),
+            "ArrowUp": () => this.climb("up"),
+            "ArrowDown": () => this.climb("down"),
             "ArrowLeft": () => this.run("left"),
             "ArrowRight": () => this.run("right"),
-            "KeyW": () => this.jump("up"),
-            "KeyS": () => this.jump("down"),
+            "KeyW": () => this.climb("up"),
+            "KeyS": () => this.climb("down"),
             "KeyA": () => this.run("left"),
             "KeyD": () => this.run("right")
         }
-    }
-
-    public update()
-    {
-
     }
 
     /**
@@ -59,17 +55,21 @@ class Player extends GameObject{
      *
      * @param {String} direction
      */
-    private run(direction:String)
+    private run(direction:string):void
     {
         this.className = "";
+        let mirror = '';
         this.classList.add('run');
         if(direction == "right"){
             this.x += 10;
         }else{
-            this.style.transform = "scaleX(-1)";
+            mirror = 'scaleX(-1)';
+
             this.x -= 10;
         }
-        this.style.transform = "translate("+this.x+"px, "+this.y+"px)";
+
+
+        this.style.transform = "translate("+this.x+"px, "+this.y+"px) " + mirror;
     }
 
 
@@ -78,7 +78,7 @@ class Player extends GameObject{
      *
      * @param {string} direction
      */
-    private jump(direction:string)
+    private climb(direction:string):void
     {
         this.className = "";
         this.classList.add('run');

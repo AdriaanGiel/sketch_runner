@@ -9,12 +9,13 @@ class Game {
         endScene: EndScene
     };
 
+    private _score:number = 0;
 
 
     constructor()
     {
         // Set active screen
-        this.activeScene = new this.scenes.startScene(this);
+        this.activeScene = new this.scenes.playScene(this);
 
         // Run game loop
         this.gameLoop();
@@ -29,7 +30,15 @@ class Game {
         requestAnimationFrame(() => this.gameLoop());
     }
 
+    public get score()
+    {
+        return this._score;
+    }
 
+    public set score(score:number)
+    {
+        this._score = score;
+    }
 
     /**
      * Method to get available scenes
@@ -62,6 +71,12 @@ class Game {
         return Math.floor(Math.random() * max) + min;
     }
 
+    public checkIfElementHasGoneOutOfBounds(el:GameObject):boolean {
+        let rect = el.getBoundingClientRect();
+        return (
+            ( rect.top > window.innerHeight)
+        );
+    };
 }
 
 // Setup game when page is loaded

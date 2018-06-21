@@ -2,36 +2,39 @@
 class PlayScene extends Scene {
     private player: Player;
     private ground: Ground;
-    private drops: Drop[] = [];
+    private dropItems: DropItem[] = [];
     private clouds: Cloud[] = [];
+    private scoreObject:Score;
 
 
     constructor(game: Game) {
         super(game);
         // change background image
         document.body.style.backgroundImage = "url('./img/background.jpg')";
+        document.body.className = '';
 
         // add ground to scene
         this.ground = new Ground( 0, 400);
 
+        this.scoreObject = new Score();
+
         // add player to scene
-        this.player = new Player( this.ground, this.ground.getBoundingClientRect().left - 200, this.ground.getBoundingClientRect().top - 300);
+        this.player = new Player( this.ground, 0, 0);
 
         // add some clouds to scene
-        for (let i = 0; i < 20; i++) {
-            let cloud = new Cloud( Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * -300) + -100, this);
+        for (let i = 0; i < 12; i++) {
+            let cloud = new Cloud( Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * 100) , this);
             cloud.rain();
             this.clouds.push(cloud);
         }
-
     }
 
     /**
      * Scene update method
      */
-    update(): void {
-        // run player update method
-        this.player.update();
+    public update(): void {
+
+        this.scoreObject.update(this.game.score);
 
         // Loop to move clouds
         for (let cloud of this.clouds) {
@@ -39,24 +42,33 @@ class PlayScene extends Scene {
         }
 
         // Loop to move drop-items
-        for (let drop of this.drops) {
+        for (let dropItem of this.dropItems) {
             // move drop-item
-            drop.move();
-
+            dropItem.move();
             // Check collision between drop and player
-            this.checkIfPlayerHasBeenHit(drop);
+            this.checkIfPlayerHasBeenHit(dropItem);
+            
+            // if (this.game.checkIfElementHasGoneOutOfBounds(dropItem)){
+            //     console.log('yeah')
+            // }
         }
 
     }
 
+    public addPointsToScore(amount:number)
+    {
+        this.game.score += amount;
+    }
+
+
     /**
      * Method to check if a player has been hit by a drop
-     * @param {Drop} drop
+     * @param {DropItem} dropItem
      */
-    private checkIfPlayerHasBeenHit(drop:Drop): void
+    private checkIfPlayerHasBeenHit(dropItem:DropItem): void
     {
-        if (this.checkCollision(drop.getBoundingClientRect(), this.player.getBoundingClientRect())) {
-            drop.hit();
+        if (this.checkCollision(dropItem.getBoundingClientRect(), this.player.getBoundingClientRect())) {
+            dropItem.hit();
         }
 
     }
@@ -65,9 +77,25 @@ class PlayScene extends Scene {
     /**
      * Method to add a new drop to scene
      */
-    public addDropToWorld(drop: Drop) {
-        this.drops.push(drop);
+    public addDropToWorld(dropItem: DropItem) {
+        this.dropItems.push(dropItem);
     }
 
+    /**
+     * Method to remove dropItem from scene
+     * @param {DropItem} dropItem
+     */
+    public removeDropFromWorld(dropItem:DropItem)
+    {
+        for(let i = 0; i < this.dropItems.length; i++)
+        {
+            if(Object.is(dropItem,this.dropItems[i]))
+            {
+                console.log('destroy');
+            }else{
+                console.log('not a match');
+            }
+        }
+    }
 
 }

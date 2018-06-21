@@ -1,12 +1,17 @@
-/// <reference path="../core/gameObject.ts"/>
-/// <reference path="../game.ts"/>
-class Spike extends GameObject{
+/// <reference path="../core/dropItem.ts"/>
+class Spike extends DropItem{
 
-    constructor(x:number,y:number)
+    constructor(scene:PlayScene,cloud:Cloud)
     {
-        super(x,y);
+        super(scene,2,1,'./img/touch-coin.png',cloud);
+        this.sound.src = './audio/laser.mp3'
     }
 
+    public hit()
+    {
+        super.hit();
+        this.scene.switchScene('endScene');
+    }
 
 
 }

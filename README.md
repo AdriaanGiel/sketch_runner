@@ -203,7 +203,7 @@ De Player class maakt bijvoorbeeld gebruik van de Gameobject
 ![ChildClass](./docs/img/childClass.PNG)
 
 
-#### **Class Diagram**
+#### **Klassendiagram**
 ![Klassendiagram](./docs/img/klassdiagram-game.jpg)
 
 

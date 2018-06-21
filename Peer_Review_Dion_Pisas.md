@@ -26,7 +26,7 @@ Spel maakt gebruik van alle 4 principes. Classes, encapsulation, composition en 
 
 
 #### Project bevat een readme bestand
-Project heeft een readme bestand waar de code wordt toegelicht. Ook is er een klassen diagram
+Project heeft een readme bestand waar de code wordt toegelicht. Ook is er een klassendiagram
 aanwezig. Daarnaast is er ook een Peer review aanwezig.
 
 #### Checklist
@@ -46,11 +46,11 @@ aanwezig. Daarnaast is er ook een Peer review aanwezig.
 - [x] Een link naar de peer review die in week 6 is gedaan
 
 #### Extra opdrachten
-- [] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
-- [] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
-- [] De game werkt met Canvas in plaats van DOM elementen
-- [] De game bevat local of online multiplayer.
-- [] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
-- [] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
+- [ ] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
+- [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
+- [ ] De game werkt met Canvas in plaats van DOM elementen
+- [ ] De game bevat local of online multiplayer.
+- [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
+- [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
 - [x] De game gebruikt een externe library uit de lijst in deze modulewijzer.
 

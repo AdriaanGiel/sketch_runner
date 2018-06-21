@@ -11,32 +11,26 @@ class StartScene extends Scene {
      * Method to setup the startscreen
      */
     private createStartScreen():void {
-        document.body.style.display = "flex";
-        document.body.style.justifyContent = "center";
-        document.body.style.alignItems = "center";
         document.body.style.backgroundImage = "url('./img/start-background.jpg')";
+        document.body.classList.add('flex');
+        document.body.classList.add('flex-center');
 
         let container = document.createElement('div');
-        container.style.display = "flex";
-        container.style.flexDirection = "column";
-        container.style.height = "800px";
+        container.classList.add('flex');
+        container.classList.add('flex-column');
+        container.style.height = "100%";
         container.style.minWidth = "600px";
 
-        let start = document.createElement("img");
-        start.src = "./img/start-button.png";
-        start.style.width = "600px";
-        // start.style.position = "relative";
-        start.classList.add('start-button');
-
+        let start = document.createElement("start-button");
         start.addEventListener('click', () => this.switchScene("playScene"));
 
         let title = document.createElement('img');
         title.src = "./img/title.png";
-        title.style.position = "relative";
-        title.classList.add('start-button');
+        title.style.width = '100%';
+        title.style.position = 'relative';
 
-        container.appendChild(start);
         container.appendChild(title);
+        container.appendChild(start);
 
         document.body.appendChild(container);
     }

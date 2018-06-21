@@ -40,7 +40,9 @@ body.endscreen > coin-object{
 
 
 .flex-column{
+    justify-content: center;
     flex-direction: column;
+    flex-wrap: wrap
 }
 
 
@@ -73,21 +75,6 @@ player-object.run-left{
 }
 
 
-bug-object
-{
-    position: relative;
-    display: inline-block;
-    background-image: url("../img/passiv-bug.png");
-    height: 50px;
-    width:65px;
-}
-
-bug-object.jump
-{
-    animation: bug-jump 1s linear infinite;
-}
-
-
 end-screen{
     height: 100%;
     width: 100%;
@@ -112,13 +99,7 @@ score-object{
 }
 
 
-score-points{
-    text-align: center;
-    background-color: red;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 
 cloud-object
@@ -164,8 +145,8 @@ spike-object
     background-image: url("../img/spike.png");
     background-size: contain;
     background-position: center;
-    height: 40px;
-    width:30px;
+    height: 50px;
+    width:40px;
 }
 
 flame-object
@@ -179,15 +160,6 @@ flame-object
     width:30px;
 }
 
-cat-object
-{
-    position: relative;
-    display: inline-block;
-    background-image: url("../img/sleeping-cat.png");
-    background-size: cover;
-    height: 50px;
-    width:65px;
-}
 
 coin-object
 {
@@ -220,13 +192,56 @@ drop-object{
 }
 
 
-.start-button{
+restart-button{
+    display: block;
     position: relative;
+    background-image: url('../img/restart.png');
+    background-size: 80%;
+    background-position: center;
+    height: 50%;
+    width: 40%;
+    bottom: 30%;
+}
+restart-button:hover{
+    animation: start-button-animation 2s ease infinite;
 }
 
-.start-button:hover{
-    animation: start-button-animation 2s ease infinite ;
+
+start-button{
+    display: block;
+    position: relative;
+    background-image: url('../img/start-button.png');
+    background-size: 80%;
+    background-position: center;
+    /*top: 50vh;*/
+    /*left: 50%;*/
+    height: 50%;
+    width: 100%;
 }
+
+start-button:hover{
+    animation: start-button-animation 2s ease infinite;
+}
+
+score-points{
+    height: 50px;
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    display: block;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+}
+
+score-number{
+    position: relative;
+    display: inline-block;
+    background-size: contain;
+    height: 40px;
+    width: 30px;
+    margin: 0;
+}
+
 
 .delay-1{
     animation-delay: -1s;
@@ -245,19 +260,11 @@ drop-object{
 }
 
 @keyframes start-button-animation {
-    0%{
-        width: 600px;
-        height: auto;
+    from{
+        background-size:  80%;
     }
-
-    50%{
-        width: 700px;
-        height: auto;
-    }
-
-    100%{
-        width: 600px;
-        height: auto;
+    to{
+        background-size: 100%;
     }
 }
 
@@ -282,18 +289,6 @@ drop-object{
     }
 }
 
-@keyframes bug-jump {
-
-    50%{
-        background-image: url("../img/jump-bug.png");
-        top: 30vh
-    }
-
-    100%{
-        background-image: url("../img/passiv-bug.png");
-        top:50vh;
-    }
-}
 
 
 

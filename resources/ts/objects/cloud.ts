@@ -9,14 +9,9 @@ class Cloud extends GameObject{
       'big-cloud-3',
       'small-cloud'
     ];
-
     private keepRaining:boolean = true;
-
     private speedX:number = 3;
-
     private scene:PlayScene;
-
-
     private dropItems:string[] = [
       'coin','flame','spike'
     ];
@@ -76,11 +71,6 @@ class Cloud extends GameObject{
                 clearTimeout(timer);
             }
         }
-    }
-
-    public stopRain():void
-    {
-        this.keepRaining = false;
     }
 
 }

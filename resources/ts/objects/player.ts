@@ -1,13 +1,12 @@
 /// <reference path="../core/gameObject.ts"/>
 /// <reference path="../game.ts"/>
-class Player extends GameObject{
+class Player extends GameObject {
 
-    private keyOptions:any;
-    private ground:Ground;
+    private keyOptions: any;
+    private ground: Ground;
 
-    constructor(ground:Ground,x:number,y:number)
-    {
-        super(x,y,false);
+    constructor(ground: Ground, x: number, y: number) {
+        super(x, y, false);
 
         this.ground = ground;
         this.ground.appendChild(this);
@@ -26,9 +25,8 @@ class Player extends GameObject{
      *
      * @param {KeyboardEvent} event
      */
-    private handleKeyPress(event:KeyboardEvent):void
-    {
-        if(String(event.code) in this.keyOptions){
+    private handleKeyPress(event: KeyboardEvent): void {
+        if (String(event.code) in this.keyOptions) {
             this.keyOptions[String(event.code)]();
         }
     }
@@ -36,8 +34,7 @@ class Player extends GameObject{
     /**
      * Method to create key options with matching methods
      */
-    private setupKeyOptions():void
-    {
+    private setupKeyOptions(): void {
         this.keyOptions = {
             "ArrowUp": () => this.climb("up"),
             "ArrowDown": () => this.climb("down"),
@@ -55,44 +52,59 @@ class Player extends GameObject{
      *
      * @param {String} direction
      */
-    private run(direction:string):void
-    {
+    private run(direction: string): void {
         this.className = "";
         let mirror = '';
         this.classList.add('run');
-        if(direction == "right"){
-            this.x += 10;
-        }else{
-            mirror = 'scaleX(-1)';
 
-            this.x -= 10;
+        if (direction == "right") {
+            if(this.getBoundingClientRect().right <= document.body.getBoundingClientRect().right){
+                this.x += 10;
+            }else{
+                this.x -= 1;
+            }
+        } else {
+            mirror = 'scaleX(-1)';
+            if(this.getBoundingClientRect().left >= document.body.getBoundingClientRect().left){
+
+                this.x -= 10;
+            }else{
+                this.x += 1;
+            }
         }
 
-
-        this.style.transform = "translate("+this.x+"px, "+this.y+"px) " + mirror;
+        this.style.transform = "translate(" + this.x + "px, " + this.y + "px) " + mirror;
     }
 
 
     /**
-     * Method to make player jump
+     * Method to make player climb
      *
      * @param {string} direction
      */
-    private climb(direction:string):void
-    {
+    private climb(direction: string): void {
         this.className = "";
         this.classList.add('run');
 
-        if(direction == "up"){
-            this.y -= 10;
-        }else{
-            this.y += 10;
+        if (direction == "up") {
+            if (this.getBoundingClientRect().bottom - 50 >= this.ground.getBoundingClientRect().top) {
+                this.y -= 10;
+            } else {
+                this.y += 1;
+            }
+        } else {
+            if (this.getBoundingClientRect().bottom - 50 <= this.ground.getBoundingClientRect().bottom - 100) {
+
+                this.y += 10;
+            } else {
+                this.y -= 1;
+            }
         }
+
 
         // Move player vertical
         this.move();
     }
-
 
 
 }

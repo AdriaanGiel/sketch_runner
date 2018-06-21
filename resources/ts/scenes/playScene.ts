@@ -4,8 +4,6 @@ class PlayScene extends Scene {
     private ground: Ground;
     private dropItems: DropItem[] = [];
     private clouds: Cloud[] = [];
-    private scoreObject:Score;
-
 
     constructor(game: Game) {
         super(game);
@@ -13,10 +11,10 @@ class PlayScene extends Scene {
         document.body.style.backgroundImage = "url('./img/background.jpg')";
         document.body.className = '';
 
+        this.game.score.createScore(true);
+
         // add ground to scene
         this.ground = new Ground( 0, 400);
-
-        this.scoreObject = new Score();
 
         // add player to scene
         this.player = new Player( this.ground, 0, 0);
@@ -34,7 +32,7 @@ class PlayScene extends Scene {
      */
     public update(): void {
 
-        this.scoreObject.update(this.game.score);
+        this.game.score.update();
 
         // Loop to move clouds
         for (let cloud of this.clouds) {
@@ -57,7 +55,7 @@ class PlayScene extends Scene {
 
     public addPointsToScore(amount:number)
     {
-        this.game.score += amount;
+        this.game.score.amount += amount;
     }
 
 
@@ -91,9 +89,9 @@ class PlayScene extends Scene {
         {
             if(Object.is(dropItem,this.dropItems[i]))
             {
-                console.log('destroy');
+                // console.log('destroy');
             }else{
-                console.log('not a match');
+                // console.log('not a match');
             }
         }
     }

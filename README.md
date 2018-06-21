@@ -116,6 +116,45 @@ voorbeeld:
 
 **Inheritence:**
 
-/*TODO*/
+Inheritence gebruik ik zodat ik geen dubbele code hoef te schrijven. Ik maak een class waar de basis methods en properties in zitten. Als ik dan 
+een nieuwe class ga aanmaken kan ik deze alles van de eerste class laten overerven.
+
+voorbeeld:
+
+    class Animal{
+        // De standaard properties van een dier
+        protected name:string;
+        protected noise:string;
+        
+        // In de constructor wordt alles gevuld
+        constructor(name:string,noise:string)
+        {
+            this.name = name;
+            this.noise = noise;
+        }
+        
+        // Standaard method om geluid te maken (nu alleen een console.log)
+        public makeNoise()
+        {
+            console.log(this.noise);            
+        }
+    }
+
+    // class Dog erft alles van animal over
+    class Dog extends Animal{
+        constructor()
+        {
+            // Hier zetten we de naam en geluid van een hond
+            super('hond','Woef!');            
+        }
+    }
+    
+    // Hond kan gebruik maken van de makeNoise method zonder hem zelf aan hoeven te maken
+    let hond = new Dog();
+    hond.makeNoise()
+
+
+
+
 
 Het spel is op 13-06-2018 nog niet af.

@@ -9,13 +9,17 @@ class Game {
         endScene: EndScene
     };
 
-    private _score:number = 0;
+    public score:Score;
 
 
     constructor()
     {
+        // Set startScore
+        this.score = new Score(0);
+
+
         // Set active screen
-        this.activeScene = new this.scenes.playScene(this);
+        this.activeScene = new this.scenes.startScene(this);
 
         // Run game loop
         this.gameLoop();
@@ -28,16 +32,6 @@ class Game {
 
         // animation frame to create loop
         requestAnimationFrame(() => this.gameLoop());
-    }
-
-    public get score()
-    {
-        return this._score;
-    }
-
-    public set score(score:number)
-    {
-        this._score = score;
     }
 
     /**

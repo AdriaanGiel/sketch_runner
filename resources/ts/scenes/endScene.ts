@@ -12,20 +12,29 @@ class EndScene extends Scene {
 
         let endScreen = document.createElement('end-screen');
         let endImg = document.createElement('end-img');
+        let restart = document.createElement('restart-button');
         let score = document.createElement('score-object');
         let div = document.createElement('div');
         let scoreNumber = document.createElement('span');
 
+        restart.addEventListener('click',() => {
+            this.game.score.amount = 0;
+            this.game.changeGameScene('playScene');
+        });
 
-        scoreNumber.innerHTML = String(this.game.score);
-        scoreNumber.style.fontSize = "55px";
-        scoreNumber.style.marginTop = "2em";
-        scoreNumber.style.color = "white";
 
+        scoreNumber.style.position = 'relative';
+        scoreNumber.style.width = '100%';
+        scoreNumber.style.bottom = '100px';
+
+        this.game.score.createScore(true,scoreNumber);
         div.classList.add('flex');
         div.classList.add('flex-center');
         div.classList.add('flex-column');
+        div.style.height = "100%";
+        div.style.width = "100%";
 
+        div.appendChild(restart);
         div.appendChild(score);
         div.appendChild(scoreNumber);
 

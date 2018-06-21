@@ -22,26 +22,22 @@ class StartScene extends Scene {
         this.createStartScreen();
     }
     createStartScreen() {
-        document.body.style.display = "flex";
-        document.body.style.justifyContent = "center";
-        document.body.style.alignItems = "center";
         document.body.style.backgroundImage = "url('./img/start-background.jpg')";
+        document.body.classList.add('flex');
+        document.body.classList.add('flex-center');
         let container = document.createElement('div');
-        container.style.display = "flex";
-        container.style.flexDirection = "column";
-        container.style.height = "800px";
+        container.classList.add('flex');
+        container.classList.add('flex-column');
+        container.style.height = "100%";
         container.style.minWidth = "600px";
-        let start = document.createElement("img");
-        start.src = "./img/start-button.png";
-        start.style.width = "600px";
-        start.classList.add('start-button');
+        let start = document.createElement("start-button");
         start.addEventListener('click', () => this.switchScene("playScene"));
         let title = document.createElement('img');
         title.src = "./img/title.png";
-        title.style.position = "relative";
-        title.classList.add('start-button');
-        container.appendChild(start);
+        title.style.width = '100%';
+        title.style.position = 'relative';
         container.appendChild(title);
+        container.appendChild(start);
         document.body.appendChild(container);
     }
     update() {
@@ -54,19 +50,13 @@ class Game {
             playScene: PlayScene,
             endScene: EndScene
         };
-        this._score = 0;
-        this.activeScene = new this.scenes.playScene(this);
+        this.score = new Score(0);
+        this.activeScene = new this.scenes.startScene(this);
         this.gameLoop();
     }
     gameLoop() {
         this.activeScene.update();
         requestAnimationFrame(() => this.gameLoop());
-    }
-    get score() {
-        return this._score;
-    }
-    set score(score) {
-        this._score = score;
     }
     getAvailableScenes() {
         return this.scenes;
@@ -195,9 +185,6 @@ class Cloud extends GameObject {
             }
         }
     }
-    stopRain() {
-        this.keepRaining = false;
-    }
 }
 customElements.define('cloud-object', Cloud);
 class Coin extends DropItem {
@@ -213,13 +200,14 @@ class Coin extends DropItem {
 customElements.define('coin-object', Coin);
 class Flame extends DropItem {
     constructor(scene, cloud) {
-        super(scene, -1, 1, './img/touch-coin.png', cloud);
+        super(scene, -1, 1, './img/hit.png', cloud);
         this.sound.src = './audio/flame.mp3';
     }
     hit() {
         super.hit();
-        this.cloud.stopRain();
-        this.scene.switchScene('endScene');
+        setTimeout(() => {
+            this.scene.switchScene('endScene');
+        }, 200);
     }
 }
 customElements.define('flame-object', Flame);
@@ -261,11 +249,21 @@ class Player extends GameObject {
         let mirror = '';
         this.classList.add('run');
         if (direction == "right") {
-            this.x += 10;
+            if (this.getBoundingClientRect().right <= document.body.getBoundingClientRect().right) {
+                this.x += 10;
+            }
+            else {
+                this.x -= 1;
+            }
         }
         else {
             mirror = 'scaleX(-1)';
-            this.x -= 10;
+            if (this.getBoundingClientRect().left >= document.body.getBoundingClientRect().left) {
+                this.x -= 10;
+            }
+            else {
+                this.x += 1;
+            }
         }
         this.style.transform = "translate(" + this.x + "px, " + this.y + "px) " + mirror;
     }
@@ -273,32 +271,64 @@ class Player extends GameObject {
         this.className = "";
         this.classList.add('run');
         if (direction == "up") {
-            this.y -= 10;
+            if (this.getBoundingClientRect().bottom - 50 >= this.ground.getBoundingClientRect().top) {
+                this.y -= 10;
+            }
+            else {
+                this.y += 1;
+            }
         }
         else {
-            this.y += 10;
+            if (this.getBoundingClientRect().bottom - 50 <= this.ground.getBoundingClientRect().bottom - 100) {
+                this.y += 10;
+            }
+            else {
+                this.y -= 1;
+            }
         }
         this.move();
     }
 }
 customElements.define('player-object', Player);
 class Score extends GameObject {
-    constructor() {
-        super(0, 500);
+    constructor(amount) {
+        super(20, 450);
+        this._amount = 0;
+        this.amount = amount;
     }
-    update(currentScore) {
-        this.innerHTML = "Score: " + String(currentScore);
+    get amount() {
+        return this._amount;
+    }
+    set amount(num) {
+        this._amount = num;
+    }
+    update() {
+        this.createScore();
+    }
+    createScore(append = false, target = document.body) {
+        this.innerHTML = "";
+        let sepaterateScore = String(this.amount);
+        for (let num of sepaterateScore) {
+            let scoreNumber = document.createElement('score-number');
+            scoreNumber.style.backgroundImage = 'url("./img/' + num + '.png")';
+            this.appendChild(scoreNumber);
+        }
+        if (append) {
+            target.appendChild(this);
+        }
     }
 }
 customElements.define('score-points', Score);
 class Spike extends DropItem {
     constructor(scene, cloud) {
-        super(scene, 2, 1, './img/touch-coin.png', cloud);
+        super(scene, 2, 1, './img/impact.png', cloud);
         this.sound.src = './audio/laser.mp3';
     }
     hit() {
         super.hit();
-        this.scene.switchScene('endScene');
+        setTimeout(() => {
+            this.scene.switchScene('endScene');
+        }, 200);
     }
 }
 customElements.define('spike-object', Spike);
@@ -311,16 +341,24 @@ class EndScene extends Scene {
         document.body.style.backgroundImage = "url('./img/start-background.jpg')";
         let endScreen = document.createElement('end-screen');
         let endImg = document.createElement('end-img');
+        let restart = document.createElement('restart-button');
         let score = document.createElement('score-object');
         let div = document.createElement('div');
         let scoreNumber = document.createElement('span');
-        scoreNumber.innerHTML = String(this.game.score);
-        scoreNumber.style.fontSize = "55px";
-        scoreNumber.style.marginTop = "2em";
-        scoreNumber.style.color = "white";
+        restart.addEventListener('click', () => {
+            this.game.score.amount = 0;
+            this.game.changeGameScene('playScene');
+        });
+        scoreNumber.style.position = 'relative';
+        scoreNumber.style.width = '100%';
+        scoreNumber.style.bottom = '100px';
+        this.game.score.createScore(true, scoreNumber);
         div.classList.add('flex');
         div.classList.add('flex-center');
         div.classList.add('flex-column');
+        div.style.height = "100%";
+        div.style.width = "100%";
+        div.appendChild(restart);
         div.appendChild(score);
         div.appendChild(scoreNumber);
         document.body.appendChild(endImg);
@@ -338,8 +376,8 @@ class PlayScene extends Scene {
         this.clouds = [];
         document.body.style.backgroundImage = "url('./img/background.jpg')";
         document.body.className = '';
+        this.game.score.createScore(true);
         this.ground = new Ground(0, 400);
-        this.scoreObject = new Score();
         this.player = new Player(this.ground, 0, 0);
         for (let i = 0; i < 12; i++) {
             let cloud = new Cloud(Math.floor(Math.random() * -window.outerWidth), Math.floor(Math.random() * 100), this);
@@ -348,7 +386,7 @@ class PlayScene extends Scene {
         }
     }
     update() {
-        this.scoreObject.update(this.game.score);
+        this.game.score.update();
         for (let cloud of this.clouds) {
             cloud.update();
         }
@@ -358,7 +396,7 @@ class PlayScene extends Scene {
         }
     }
     addPointsToScore(amount) {
-        this.game.score += amount;
+        this.game.score.amount += amount;
     }
     checkIfPlayerHasBeenHit(dropItem) {
         if (this.checkCollision(dropItem.getBoundingClientRect(), this.player.getBoundingClientRect())) {
@@ -371,10 +409,8 @@ class PlayScene extends Scene {
     removeDropFromWorld(dropItem) {
         for (let i = 0; i < this.dropItems.length; i++) {
             if (Object.is(dropItem, this.dropItems[i])) {
-                console.log('destroy');
             }
             else {
-                console.log('not a match');
             }
         }
     }

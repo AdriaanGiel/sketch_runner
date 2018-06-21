@@ -13,7 +13,7 @@ Spel maakt gebruik van Howler en voldoet dus aan een van de extra uitdagingen.
 Spel heeft op het moment alleen een startscherm en speelscherm.
 
 #### Er zijn geen bugs
-Het spel is nog niet af dus dit heb ik nog niet helemaal kunnen testem.
+Het spel is nog niet af dus dit heb ik nog niet helemaal kunnen testen.
 
 
 #### Project maakt gebruik van **OOP** principes

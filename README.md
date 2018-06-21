@@ -6,9 +6,32 @@ dan ben je dood. Je score wordt in de hoek van de speelscherm bijgehouden. Je ka
 opnieuw proberen. 
 
 **Op het moment is het spel alleen speelbaar op Google Chrome.**
-**Demo op:** https://adriaangiel.github.io/sketch_runner/
+**Demo op:** [Sketch Runner](https://adriaangiel.github.io/sketch_runner/)
 
 Ik gebruik in deze spel alle technieken die we in de les hebben behandeld.
+**Classes** 
+In OOP programmeren wordt voor alles classes gebruikt. Met classes kan je variables(properties) en functies(methods) afschermen 
+van andere delen van je code. Een class heeft zijn eigen logica, soms aangevuld door een parent class of interface. 
+
+**Classes in mijn game:**
+* Game
+* Scene
+* StartScene
+* PlayScene
+* EndScene
+* GameObject
+* Cloud
+* Ground
+* Player
+* Score
+* DropItem
+* Coin
+* Flame
+* Spike
+
+**Voorbeeld van een simpele class in mijn game:**
+
+![Class](./docs/img/class.PNG)
 
 **Encapsulation:**
 Encapsulation gebruik ik om mijn classes te beschermen en alles alleen beschikbaar te hebben in de juiste class.
@@ -83,11 +106,18 @@ die overerft van de parent.
 Om je applicatie zo veilig mogelijk te schrijven is de standaard eigenlijk dat alles private is. Als je een propertie wilt kunnen ophalen of 
 kunnen veranderen, maak je getters en setters. Voor functies gebruik je public alleen als de functie buiten de class moet kunnen worden aangeroepen.
  
+**Voorbeeld in eigen code:** 
+Properties
+![ParentClass](./docs/img/encapsulation_properties.PNG)
+
+Methods
+![ChildClass](./docs/img/encapsulation_methods.PNG)
+
 
 **Composition:**
-Composition gebruik je als je een class wilt meegeven aan een ander class. Je stuurt dan een class mee als een parameter in een class zijn constructor.
-Deze class parameter sla je dan op in een propertie van de class.
-
+Composition gebruik je als je bepaalde classes aan elkaar wilt koppelen. Zo is er in mijn game een Game class die meerdere Scene classes heeft. Elke Scene class heeft weer de Game
+nodig. De Game class wordt dan opgeslagen in een propertie van de Scene class.
+ 
 voorbeeld:
     
     class Water{
@@ -113,6 +143,12 @@ voorbeeld:
             this.y = y;
         }
     }
+    
+**Voorbeeld in eigen code**
+
+
+Hier gebruik ik het specifiek zodat ik de functie changeGameScene van de Game kan gebruiken binnen de Scene classes
+    ![Compo](./docs/img/composition.PNG)
 
 **Inheritence:**
 
@@ -153,8 +189,20 @@ voorbeeld:
     let hond = new Dog();
     hond.makeNoise()
 
+**Voorbeeld in eigen code:** 
+
+De GameObject Class wordt door heel veel andere classes overgeërfd. In de GameObject wordt de positie van de html element veranderd en is er een methode waarmee
+een element bewogen kan worden.
+![ParentClass](./docs/img/parentClass.PNG)
+
+De Player class maakt bijvoorbeeld gebruik van de Gameobject
+![ChildClass](./docs/img/childClass.PNG)
 
 
+#### **Class Diagram**
+![Klassendiagram](./docs/img/klassdiagram-game.jpg)
 
 
-Het spel is op 13-06-2018 nog niet af.
+#### Peer review
+Link naar peer review:
+[Dion Pisas](https://github.com/AdriaanGiel/sketch_runner/blob/master/Peer_Review_Dion_Pisas.md)

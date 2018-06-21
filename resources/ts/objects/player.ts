@@ -9,9 +9,8 @@ class Player extends GameObject {
         super(x, y, false);
 
         this.ground = ground;
-        this.ground.appendChild(this);
 
-        this.move();
+        this.ground.appendChild(this);
 
         // Fill keyOptions variable
         this.setupKeyOptions();

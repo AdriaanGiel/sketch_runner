@@ -8,7 +8,7 @@ class Score extends GameObject{
         this.amount = amount;
     }
 
-    public get amount()
+    public get amount():number
     {
         return this._amount;
     }

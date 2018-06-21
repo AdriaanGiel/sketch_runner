@@ -78,8 +78,6 @@ window.addEventListener('load', () => { new Game(); });
 class GameObject extends HTMLElement {
     constructor(x, y, append = true) {
         super();
-        this.x = 0;
-        this.y = 0;
         this.x = x;
         this.y = y;
         if (append) {
@@ -105,7 +103,6 @@ class DropItem extends GameObject {
         document.body.appendChild(this);
         this.x = this.cloud.getBoundingClientRect().left;
         this.y = this.cloud.getBoundingClientRect().top;
-        this.move();
     }
     hit() {
         this.stop();
@@ -223,7 +220,6 @@ class Player extends GameObject {
         super(x, y, false);
         this.ground = ground;
         this.ground.appendChild(this);
-        this.move();
         this.setupKeyOptions();
         window.addEventListener('keydown', (e) => this.handleKeyPress(e));
     }

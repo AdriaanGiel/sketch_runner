@@ -24,7 +24,6 @@ class DropItem extends GameObject{
 
         this.x = this.cloud.getBoundingClientRect().left;
         this.y = this.cloud.getBoundingClientRect().top;
-        this.move();
     }
 
     public hit():void
